@@ -37,4 +37,3 @@ clean_data <- meat %>% mutate(Beef = Beef_production_thousand_Viss * 1.63293, Mu
 clean_data
 write.csv(clean_data, "livestock_meat.csv")
 ```
-
