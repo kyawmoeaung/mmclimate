@@ -1,0 +1,40 @@
+```{r}
+library(zoo)
+library(tidyverse)
+```
+
+```{r}
+meat <- read.delim("C:/Users/Kyaw/Downloads/195_DT_MAB_0006_20190321164314.txt", header = FALSE, stringsAsFactors = FALSE, skip = 2, na.strings = "-")
+head(meat)
+meat
+```
+
+```{r}
+meatcol <- c("Date","cattle_slau_thou", "Beef_production_thousand_Viss", "Mutton_slau_thou", "Mutton_production_thousand_viss", "Goat_slau_thou", "Gmeat_Production_thou_viss", "Sheep_slau_thou", "Sheep_meet_thou_viss", "Pig_slau_thou", "Pork_production_thou_viss", "Fish_production_thou_viss", "chicken_production_thou_viss", "Duck_production_thou_viss", "Milk_production_thou_viss", "Egg_production_thou_no", "Duck_Egg_thou_no")
+names(meat) <-meatcol
+meat
+```
+```{r}
+# meat <- tidyr::separate(meat, Date, into = c("Year", "Month"))
+library(zoo) # for yearmon
+
+meat$Date <- as.yearmon(meat$Date, format="%m-%Y")
+meat
+```
+
+```{r}
+clean_data <- meat %>% mutate(Beef = Beef_production_thousand_Viss * 1.63293, Mutton = Mutton_production_thousand_viss * 1.63293, Goat = Gmeat_Production_thou_viss * 1.63293, Sheep = Sheep_meet_thou_viss * 1.63293, Pig = Pork_production_thou_viss * 1.63293, Fish = Fish_production_thou_viss * 1.63293, Chicken = chicken_production_thou_viss * 1.63293, Duck = Duck_production_thou_viss * 1.63293) %>% group_by(Date)%>%
+  summarize(
+    cattle = sum(Beef),
+    mutton = sum(Mutton),
+    goat = sum(Goat),
+    sheep = sum(Sheep),
+    pig = sum(Pig),
+    fish = sum(Fish),
+    chicken = sum(Chicken),
+    duck = sum(Duck))
+
+clean_data
+write.csv(clean_data, "livestock_meat.csv")
+```
+
