@@ -4,7 +4,7 @@ library(tidyverse)
 ```
 
 ```{r}
-meat <- read.delim("C:/Users/Kyaw/Downloads/195_DT_MAB_0006_20190321164314.txt", header = FALSE, stringsAsFactors = FALSE, skip = 2, na.strings = "-")
+meat <- read.delim("https://raw.githubusercontent.com/kyawmoeaung/mmclimate/mmsis-data/195_DT_MAB_0006_20190321221753.txt", header = FALSE, stringsAsFactors = FALSE, skip = 2, na.strings = "-")
 head(meat)
 meat
 ```
@@ -15,25 +15,35 @@ names(meat) <-meatcol
 meat
 ```
 ```{r}
-# meat <- tidyr::separate(meat, Date, into = c("Year", "Month"))
-library(zoo) # for yearmon
-
-meat$Date <- as.yearmon(meat$Date, format="%m-%Y")
+meat <- tidyr::separate(meat, "Date", into = c("Year", "Month"))
+meat$Year <- as.numeric(meat$Year)
+# library(zoo) # for yearmon
+# 
+# meat$Date <- as.yearmon(meat$Date, format="%Y-%m")
 meat
 ```
 
+
+
 ```{r}
-clean_data <- meat %>% mutate(Beef = Beef_production_thousand_Viss * 1.63293, Mutton = Mutton_production_thousand_viss * 1.63293, Goat = Gmeat_Production_thou_viss * 1.63293, Sheep = Sheep_meet_thou_viss * 1.63293, Pig = Pork_production_thou_viss * 1.63293, Fish = Fish_production_thou_viss * 1.63293, Chicken = chicken_production_thou_viss * 1.63293, Duck = Duck_production_thou_viss * 1.63293) %>% group_by(Date)%>%
+clean_data <- meat %>% mutate(Beef = Beef_production_thousand_Viss * 1.63293, Mutton = Mutton_production_thousand_viss * 1.63293, Goat = Gmeat_Production_thou_viss * 1.63293, Sheep = Sheep_meet_thou_viss * 1.63293, Pig = Pork_production_thou_viss * 1.63293, Fish = Fish_production_thou_viss * 1.63293, Chicken = chicken_production_thou_viss * 1.63293, Duck = Duck_production_thou_viss * 1.63293) %>% group_by(Year)%>%
   summarize(
-    cattle = sum(Beef),
-    mutton = sum(Mutton),
-    goat = sum(Goat),
-    sheep = sum(Sheep),
-    pig = sum(Pig),
-    fish = sum(Fish),
-    chicken = sum(Chicken),
-    duck = sum(Duck))
+    cattle = sum(Beef, na.rm = TRUE),
+    mutton = sum(Mutton, na.rm = TRUE),
+    goat = sum(Goat, na.rm = TRUE),
+    sheep = sum(Sheep, na.rm = TRUE),
+    pig = sum(Pig, na.rm = TRUE),
+    fish = sum(Fish, na.rm = TRUE),
+    chicken = sum(Chicken, na.rm = TRUE),
+    duck = sum(Duck, na.rm = TRUE))
 
 clean_data
 write.csv(clean_data, "livestock_meat.csv")
+```
+```{r}
+myfun <- function(x){
+  x * 1.63293
+}
+myfun(100)
+meat01 <- do.call(myfun, list(meat$Beef_production_thousand_Viss))
 ```
