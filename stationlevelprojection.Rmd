@@ -3687,11 +3687,12 @@ pathein_tmin_future %>%
   ) %>%
   ggplot(aes(x = Year, y = Mean, color = Model)) +
   geom_line() +
-  geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_mean = mean(Tmin.x)), aes(x = Year, y = ))
+  geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_mean = mean(Tmin.x)), aes(x = Year, y = Ob_mean), color = "maroon") +
   geom_line(aes(x = Year, y = Ob_mean), color = "darkolivegreen") +
-  geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.5) +
-  geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.5) +
-  scale_color_hue(l = 45) +
+  # geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.5) +
+  # geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.5) +
+  scale_color_manual(values = getpalette(colorcount)) +
+  # scale_color_hue(l = 45) +
   facet_wrap(~Model, scales = "free_y", ncol = 5) +
   labs(
     x = "Year",
@@ -3728,16 +3729,17 @@ pathein_tmin_future %>%
     Min = min(future)
   ) %>%
   ggplot(aes(x = Year, y = Mean, color = Model)) +
-  geom_line(lty = "dashed", size =0.2) +
+  geom_line() +
   geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_mean = mean(Tmin.x)),
     aes(x = Year, y = Ob_mean), color = "darkolivegreen") +
-   geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_max = max(Tmin.x)),
-    aes(x = Year, y = Ob_max), color = "darkolivegreen") +
-   geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_min = min(Tmin.x)),
-    aes(x = Year, y = Ob_min), color = "darkolivegreen") +
-  geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.3) +
-  geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.3) +
-  scale_color_hue(l = 45) +
+  #  geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_max = max(Tmin.x)),
+  #   aes(x = Year, y = Ob_max), color = "darkolivegreen") +
+  #  geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_min = min(Tmin.x)),
+  #   aes(x = Year, y = Ob_min), color = "darkolivegreen") +
+  # geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.3) +
+  # geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.3) +
+  scale_color_manual(values = getpalette(colorcount)) +
+  # scale_color_hue(l = 45) +
   labs(
     x = "Year",
     y = expression(paste("Temperature", degree, "C")),
@@ -3773,16 +3775,17 @@ pathein_tmin_future %>%
     Min = min(future)
   ) %>%
   ggplot(aes(x = Year, y = Mean, color = Model)) +
-  geom_line(lty = "dashed", size = 0.5) +
+  geom_line() +
   geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_mean = mean(Tmin.x)),
     aes(x = Year, y = Ob_mean), color = "darkolivegreen") +
-  geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_max = max(Tmin.x)),
-    aes(x = Year, y = Ob_max), color = "darkolivegreen") +
-  geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_min = min(Tmin.x)),
-    aes(x = Year, y = Ob_min), color = "darkolivegreen") +
-  geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.5) +
-  geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.5) +
-  scale_color_hue(l = 45) +
+  # geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_max = max(Tmin.x)),
+  #   aes(x = Year, y = Ob_max), color = "darkolivegreen") +
+  # geom_line(data = pathein_tmin_future %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_min = min(Tmin.x)),
+  #   aes(x = Year, y = Ob_min), color = "darkolivegreen") +
+  # geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.5) +
+  # geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.5) +
+  scale_color_manual(values = getpalette(colorcount)) +
+  # scale_color_hue(l = 45) +
   facet_wrap(~Model, scales = "free_y", ncol = 5) +
   labs(
     x = "Year",
@@ -4066,7 +4069,7 @@ pathein_tmin_future_85 %>%
   summarize(Mean = mean(future),
             Ob_mean = mean(Tmin.x)) %>%
   ggplot(aes(x = Month, y = Mean, color = Model)) +
-  geom_jitter(lty  = "dashed", size = 0.2) +
+  geom_line(lty  = "dashed", size = 0.2) +
   geom_line(aes(x = Month, y = Ob_mean)) +
   scale_color_hue(l = 50) +
   scale_x_discrete(limits = month.abb) +
@@ -4101,14 +4104,16 @@ pathein_tmin_future_85 %>%
   summarize(Mean = mean(future),
             Ob_mean = mean(Tmin.x)) %>%
   ggplot(aes(x = Month, y = Mean, color = Model)) +
-  geom_jitter(lty = "dashed", size = 0.2) +
-  geom_line(aes(x = Month, y = Ob_mean)) +
-  scale_color_hue(l = 50) +
+  geom_line(lty = "dashed") +
+  geom_line(aes(x = Month, y = Ob_mean), color = "grey60") +
+  scale_color_manual(values = getpalette(colorcount)) +
+ # scale_color_hue(l = 50) +
   scale_x_discrete(limits = abb.month) +
-  facet_wrap(~Model, scales = "free_y")+
+  facet_wrap(~Model, scales = "free_y", ncol = 5)+
   labs(
     x = "Month",
-    y = expression(paste("Temperature", degree, "C"))
+    y = expression(paste("Temperature", degree, "C")),
+    caption = "Source: ECD-SNC, DMH"
   ) +
   theme_economist_white() +
   theme(
@@ -4131,6 +4136,7 @@ pathein_tmin_future_85 %>%
 ##### Observed vs. Projected Annual Minimum Temperature
 
 ```{r Fig2-43, echo=FALSE, fig.cap="Future Minimum Temperature under RCP 8.5 at Pathein station, Ayeyarwaddy Region, Myanmar under different GCMs 2011-2100"}
+colorcount <- length(unique(pathein_tmin_future_85$Model))
 pathein_tmin_future_85 %>%
   group_by(Model, Year) %>%
   summarize(
@@ -4140,16 +4146,19 @@ pathein_tmin_future_85 %>%
     Min = min(future)
   ) %>%
   ggplot(aes(x = Year, y = Mean, color = Model)) +
-  geom_line(alpha = 0.9, lty = "dashed", size = 0.2) +
-  geom_line(aes(x =Year, y = Ob_mean)) +
-  geom_line(aes(x = Year, y = Max, color = Model), lty = "dashed", alpha = 0.3) +
-  geom_line(aes(x = Year, y = Min, color = Model), lty = "dashed", alpha = 0.3) +
-  scale_color_hue(l = 45) +
+  geom_line() +
+  geom_line(data = pathein_tmin_future_85 %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_mean = mean(Tmin.x)), aes(x = Year, y = Ob_mean), color = "grey60") +
+  geom_line(aes(x =Year, y = Ob_mean), color = "grey60") +
+  # geom_line(aes(x = Year, y = Max, color = Model), lty = "dashed", alpha = 0.3) +
+  # geom_line(aes(x = Year, y = Min, color = Model), lty = "dashed", alpha = 0.3) +
+  scale_color_manual(values = getpalette(colorcount)) +
+  # scale_color_hue(l = 45) +
   labs(
     x = "Year", 
     y = expression(paste("Temperature", degree, "C")),
     caption = "Source: ECD-SNC, DMH"
   ) +
+  theme_excel_new() +
   theme(
   legend.position = "none",
     legend.key.height = unit(2, "mm"),
@@ -4170,20 +4179,25 @@ pathein_tmin_future_85 %>%
 ##### Observed vs. Projected Annual Minimum Temperature by Model
 
 ```{r Fig2-44, fig.width=7, fig.height=9, fig.cap="Observed and Projected Minimum Temperature under RCP 8.5 at Pathein station, Ayeyarwaddy Region, Myanmar under different GCMs 2011-2100"}
+colorcount <- length(unique(pathein_tmin_future_85$Model))
 pathein_tmin_future_85 %>%
   group_by(Model, Year) %>%
   summarize(
     Mean = mean(future),
     Ob_mean = mean(Tmin.x),
+    Ob_max = max(Tmin.x),
+    Ob_min = min(Tmin.x),
     Max = max(future),
     Min = min(future)
   ) %>%
   ggplot(aes(x = Year, y = Mean, color = Model)) +
-  geom_line(alpha = 0.9, lty = "dashed", size = 0.2) +
-  geom_line(aes(x = Year, y = Ob_mean)) +
-  geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.3) +
-  geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.3) +
-  scale_color_hue(l = 45) +
+  geom_line() +
+  geom_line(data = pathein_tmin_future_85 %>% mutate(Year = year(date)) %>% group_by(Model, Year) %>% summarize(Ob_mean = mean(Tmin.x)), 
+    aes(x = Year, y = Ob_mean), color = "grey60") +
+  # geom_line(aes(x = Year, y = Max, color = Model), alpha = 0.3) +
+  # geom_line(aes(x = Year, y = Min, color = Model), alpha = 0.3) +
+  scale_color_manual(values = getpalette(colorcount)) +
+  # scale_color_hue(l = 45) +
   facet_wrap(~Model, scales = "free_y", ncol = 5) +
   labs(
     x = "Year", 
